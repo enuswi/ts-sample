@@ -10,6 +10,7 @@ module.exports = {
   },
   rules: {
     "no-console": "error",
-    camelcase: ["error", { properties: "never" }]
+    camelcase: ["error", { properties: "never" }],
+    semi: ["error", "always"],
   }
 }
