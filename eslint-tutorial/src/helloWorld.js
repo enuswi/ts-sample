@@ -1,3 +1,3 @@
-// eslint-disable-next-line camelcase
-export const hello_world = 'hello, world!';
-export const helloJapan = 'hello, japan!';
+// eslint-disable-next-line semi
+export const helloWorld = 'hello, world!'
+export const helloJapan = 'hello, japan!'
