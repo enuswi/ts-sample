@@ -1,2 +1,2 @@
-export const helloWorld = "hello, world!"
-console.log(helloWorld)
+export const helloWorld = 'hello, world!';
+console.log(helloWorld);
