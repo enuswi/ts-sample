@@ -26,3 +26,7 @@ cf. https://cloud.google.com/nodejs/docs/reference/firestore/latest
 
 cf. https://cloud.google.com/nodejs/docs/reference/firestore/latest#quickstart
 
+- 引っかかりポイント
+  - Firestoreにデータベースを作成する必要があったので作成した
+  - Nodeアプリケーションから実行する前に、CLIの環境変数設定が必要だった
+    - ex. `export GOOGLE_APPLICATION_CREDENTIALS="KEY_PATH"`
