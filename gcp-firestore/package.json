@@ -1,0 +1,8 @@
+{
+  "name": "gcp-firestore",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@google-cloud/firestore": "^6.4.1",
+    "express": "^4.18.2"
+  }
+}
