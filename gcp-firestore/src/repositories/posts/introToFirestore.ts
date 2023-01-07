@@ -5,7 +5,10 @@ export class IntroToFirestoreRepository {
 
   constructor() {
     const firestore: Firestore = new Firestore()
-    this._document = firestore.doc('posts/intro-to-firestore')
+    //this._document = firestore.doc('posts/intro-to-firestore')
+    this._document = firestore.collection('collection').doc('hoge')
+      .collection('sub-collection').doc('fuga')
+      .collection('sub-sub-collection').doc('hoge-fuga')
   }
 
   async insert(_title: string, _body: string) {
