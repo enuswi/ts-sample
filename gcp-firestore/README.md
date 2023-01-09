@@ -2,6 +2,21 @@
 
 Node.js x Firestore サンプル
 
+## アプリケーション起動
+
+### 開発
+
+```
+$ yarn dev
+```
+
+### 本番用（基本はCI/CDなのであまり実施する機会はなさそう？）
+
+```
+$ yarn build
+$ yarn start
+```
+
 ## Cloud Firestoreとは
 
 cf. https://cloud.google.com/nodejs/docs/reference/firestore/latest
