@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express'
+import { body, validationResult } from 'express-validator'
 import { IntroToFirestoreRepository } from './repositories/posts/introToFirestore'
 
 const app: Application = express()
@@ -23,11 +24,25 @@ app.get('/', (_req: Request, res: Response) => {
     })
 })
 
-app.post('/post', (_req: Request, res: Response) => {
-  if (_req.body === undefined) return res.status(400).send({'message': 'Bad Request.'})
+type PostParams = {
+  title: string,
+  body: string
+}
 
-  const title = String(_req.body.title) || ''
-  const body = String(_req.body.body) || ''
+app.post('/post',
+  body('title').exists(),
+  body('title').isString(),
+  body('body').exists(),
+  body('body').isString(),
+  (_req: Request, res: Response) => {
+
+  const errors = validationResult(_req)
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+  const postParams = _req.body as PostParams
+
+  const title = postParams.title
+  const body = postParams.body
 
   const repo = new IntroToFirestoreRepository
   repo.insert(title, body)
@@ -35,27 +50,49 @@ app.post('/post', (_req: Request, res: Response) => {
     .catch(() => { return res.status(500).send({'message': 'Insert failed.'}) })
 })
 
-app.patch('/post', (_req: Request, res: Response) => {
-  if (_req.body === undefined || _req.body.key === undefined) {
-    return res.status(400).send({'message': 'Bad Request.'})
-  }
+type PatchParams = {
+  key: string,
+  title: string,
+  body: string
+}
 
-  const title = String(_req.body.title) || ''
-  const body = String(_req.body.body) || ''
+app.patch('/post',
+  body('key').exists(),
+  body('key').isString(),
+  body('title').exists(),
+  body('title').isString(),
+  body('body').exists(),
+  body('body').isString(),
+  (_req: Request, res: Response) => {
+
+  const errors = validationResult(_req)
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+  const patchParams = _req.body as PatchParams
+
+  const key = patchParams.key
+  const title = patchParams.title
+  const body = patchParams.body
 
   const repo = new IntroToFirestoreRepository
-  repo.update(String(_req.body.key), title, body)
+  repo.update(key, title, body)
     .then((data) => { return res.status(200).send(data) })
     .catch(() => { return res.status(500).send({'message': 'Update failed.'}) })
 })
 
-app.delete('/post', (_req: Request, res: Response) => {
-  if (_req.body === undefined || _req.body.key === undefined) {
-    return res.status(400).send({'message': 'Bad Request.'})
-  } 
+type DeleteParams = {
+  key: string
+}
+
+app.delete('/post', body('key').exists(), body('key').isString(), (_req: Request, res: Response) => {
+  const errors = validationResult(_req)
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+  const deleteParams = _req.body as DeleteParams
+  const key = deleteParams.key
 
   const repo = new IntroToFirestoreRepository
-  repo.delete(String(_req.body.key))
+  repo.delete(key)
     .then((data) => { return res.status(200).send(data) })
     .catch(() => { return res.status(500).send({'message': 'Delete faild.'}) })
 })
