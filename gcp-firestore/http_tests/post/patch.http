@@ -2,4 +2,7 @@ PATCH  http://localhost:3000/post
 Content-Type: application/json
 
 {
+  "key": "3S166ToW8w5oj2L4Z8O1",
+  "title": "{title}",
+  "body": "{body}"
 }

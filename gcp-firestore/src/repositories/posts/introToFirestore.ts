@@ -1,35 +1,32 @@
-import { Firestore, DocumentReference } from "@google-cloud/firestore"
+import { Firestore, CollectionReference } from "@google-cloud/firestore"
 
 export class IntroToFirestoreRepository {
-  private _document : DocumentReference
+  private _collection : CollectionReference
 
   constructor() {
     const firestore: Firestore = new Firestore()
-    this._document = firestore.collection('posts').doc('intro-to-firestore')
-    // subCollection例
-    //this._document = firestore.collection('collection').doc('hoge')
-    //  .collection('sub-collection').doc('fuga')
-    //  .collection('sub-sub-collection').doc('hoge-fuga')
+    this._collection = firestore.collection('posts')
   }
 
   async insert(_title: string, _body: string) {
-    return await this._document.set({
+    return await this._collection.doc().set({
       title: _title,
       body: _body
     })
   }
 
-  async update(_body: string) {
-    return await this._document.update({
+  async update(_path: string, _title: string, _body: string) {
+    return await this._collection.doc(_path).update({
+      title: _title,
       body: _body
     })
   }
 
-  async get() {
-    return await this._document.get()
+  async find(_path: string) {
+    return await this._collection.doc(_path).get()
   }
 
-  async delete() {
-    return await this._document.delete()
+  async delete(_path: string) {
+    return await this._collection.doc(_path).delete()
   }
 }
