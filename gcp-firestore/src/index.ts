@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express'
-import { body, validationResult } from 'express-validator'
+import { body, check, validationResult } from 'express-validator'
 import { IntroToFirestoreRepository } from './repositories/posts/introToFirestore'
 
 const app: Application = express()
@@ -40,10 +40,10 @@ app.get('/', (_req: Request, res: Response) => {
 })
 
 app.post('/post',
-  body('title').exists(),
-  body('title').isString(),
-  body('body').exists(),
-  body('body').isString(),
+  [
+    check('title').isString().exists(),
+    check('body').isString().exists()
+  ],
   (_req: Request, res: Response) => {
 
   const errors = validationResult(_req)
@@ -61,12 +61,11 @@ app.post('/post',
 })
 
 app.patch('/post',
-  body('key').exists(),
-  body('key').isString(),
-  body('title').exists(),
-  body('title').isString(),
-  body('body').exists(),
-  body('body').isString(),
+  [
+    check('key').isString().exists(),    
+    check('title').isString().exists(),
+    check('body').isString().exists()
+  ],
   (_req: Request, res: Response) => {
 
   const errors = validationResult(_req)
@@ -84,7 +83,7 @@ app.patch('/post',
     .catch(() => { return res.status(500).send({'message': 'Update failed.'}) })
 })
 
-app.delete('/post', body('key').exists(), body('key').isString(), (_req: Request, res: Response) => {
+app.delete('/post', body('key').isString().exists(), (_req: Request, res: Response) => {
   const errors = validationResult(_req)
   if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
 
