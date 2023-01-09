@@ -53,6 +53,22 @@ cf. https://cloud.google.com/nodejs/docs/reference/firestore/latest#quickstart
   - 本番環境用のビルドは、 `yarn build-esbuild`
     - ※ 本番環境用の実行は、導入前同様に `yarn start`
 - cf. https://zenn.dev/okmttdhr/articles/7fd59537b63ce4
+- 速度比較
+```
+gcp-firestore % hyperfine 'yarn build-esbuild'
+Benchmark 1: yarn build-esbuild
+  Time (mean ± σ):      1.246 s ±  0.064 s    [User: 1.034 s, System: 0.192 s]
+  Range (min … max):    1.172 s …  1.329 s    10 runs
+ 
+gcp-firestore % hyperfine 'yarn build'              
+Benchmark 1: yarn build
+  Time (mean ± σ):      2.207 s ±  0.086 s    [User: 4.721 s, System: 0.217 s]
+  Range (min … max):    2.148 s …  2.432 s    10 runs
+```
+- 気になりポイント
+  - ※ 開発環境の高速化がどれほど有用なのかが気になっているところ（ts-node-devでいいのでは？）
+  - ※ 型チェックがないとのこと
+    - cf. https://qiita.com/faunsu/items/487c7157c211bfc739c1
 
 ## 導入パッケージまとめ
 
