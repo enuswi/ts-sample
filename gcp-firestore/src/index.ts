@@ -8,6 +8,21 @@ const port: number = 3000
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+type PostParams = {
+  title: string,
+  body: string
+}
+
+type PatchParams = {
+  key: string,
+  title: string,
+  body: string
+}
+
+type DeleteParams = {
+  key: string
+}
+
 app.get('/', (_req: Request, res: Response) => {
   if (_req.query.entityId == undefined) return res.status(400).send({ 'message': 'Bad Request.' })
   const entityId: string = String(_req.query.entityId)
@@ -23,11 +38,6 @@ app.get('/', (_req: Request, res: Response) => {
       return res.status(404).send({'message': 'Not found data.'})
     })
 })
-
-type PostParams = {
-  title: string,
-  body: string
-}
 
 app.post('/post',
   body('title').exists(),
@@ -49,12 +59,6 @@ app.post('/post',
     .then((data) => { return res.status(200).send(data) })
     .catch(() => { return res.status(500).send({'message': 'Insert failed.'}) })
 })
-
-type PatchParams = {
-  key: string,
-  title: string,
-  body: string
-}
 
 app.patch('/post',
   body('key').exists(),
@@ -79,10 +83,6 @@ app.patch('/post',
     .then((data) => { return res.status(200).send(data) })
     .catch(() => { return res.status(500).send({'message': 'Update failed.'}) })
 })
-
-type DeleteParams = {
-  key: string
-}
 
 app.delete('/post', body('key').exists(), body('key').isString(), (_req: Request, res: Response) => {
   const errors = validationResult(_req)
