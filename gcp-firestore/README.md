@@ -102,3 +102,7 @@ Benchmark 1: yarn build
   - ※ nodemonよりts-node-devによる監視モードの方が高速らしい
 - cf. https://qiita.com/sa9ra4ma/items/67ab5ac6fea3e5f065b0
 
+### express-validator
+
+- バリデーションを実装（結構、冗長？）
+- cf. https://express-validator.github.io/docs/
