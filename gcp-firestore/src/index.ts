@@ -1,5 +1,5 @@
 import express, { Application, Request, Response } from 'express'
-import { body, check, validationResult } from 'express-validator'
+import { body, check, query, validationResult } from 'express-validator'
 import { IntroToFirestoreRepository } from './repositories/posts/introToFirestore'
 
 const app: Application = express()
@@ -7,6 +7,10 @@ const port: number = 3000
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+type FindParams = {
+  entityId: string
+}
 
 type PostParams = {
   title: string,
@@ -23,9 +27,13 @@ type DeleteParams = {
   key: string
 }
 
-app.get('/', (_req: Request, res: Response) => {
-  if (_req.query.entityId == undefined) return res.status(400).send({ 'message': 'Bad Request.' })
-  const entityId: string = String(_req.query.entityId)
+app.get('/', query('entityId').exists(), (_req: Request, res: Response) => {
+
+  const errors = validationResult(_req)
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+  const findParams = _req.query as FindParams
+  const entityId = findParams.entityId
 
   const repo = new IntroToFirestoreRepository
   repo.find(entityId)
