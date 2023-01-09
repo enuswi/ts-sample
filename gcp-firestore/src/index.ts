@@ -13,8 +13,11 @@ app.get('/', (_req: Request, res: Response) => {
 
   const repo = new IntroToFirestoreRepository
   repo.find(entityId)
-    .then((data) => { return res.status(200).send(data.data()) })
-    .catch(() => { return res.status(404).send({'message': 'Not found data.'}) })
+    .then((data) => {
+      if (!data.exists) throw new Error()
+      return res.status(200).send(data.data())
+    })
+    .catch((e) => { return res.status(404).send({'message': 'Not found data.'}) })
 })
 
 app.post('/post', (_req: Request, res: Response) => {

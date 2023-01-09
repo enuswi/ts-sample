@@ -1,11 +1,9 @@
-import { Firestore, CollectionReference } from "@google-cloud/firestore"
+import { abstractRepository } from "../abstractRepository"
 
-export class IntroToFirestoreRepository {
-  private _collection : CollectionReference
+export class IntroToFirestoreRepository extends abstractRepository {
 
   constructor() {
-    const firestore: Firestore = new Firestore()
-    this._collection = firestore.collection('posts')
+    super('posts')
   }
 
   async insert(_title: string, _body: string) {
@@ -22,11 +20,11 @@ export class IntroToFirestoreRepository {
     })
   }
 
-  async find(_path: string) {
-    return await this._collection.doc(_path).get()
-  }
+  //async find(_path: string) {
+  //  return await this._collection.doc(_path).get()
+  //}
 
-  async delete(_path: string) {
-    return await this._collection.doc(_path).delete()
-  }
+  //async delete(_path: string) {
+  //  return await this._collection.doc(_path).delete()
+  //}
 }
