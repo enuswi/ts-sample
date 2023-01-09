@@ -69,3 +69,12 @@ cf. https://cloud.google.com/nodejs/docs/reference/firestore/latest#quickstart
   ...
 }
 ```
+
+### ts-node, ts-node-dev
+
+- ts-node-devを使うことで
+  - ts-node同様、tsファイルをjsファイルにコンパイルすることなく、起動することができる
+  - ts-nodeとは違い、監視モード（所謂、watchモード）で素早く再起動が使用できる
+  - ※ nodemonよりts-node-devによる監視モードの方が高速らしい
+- cf. https://qiita.com/sa9ra4ma/items/67ab5ac6fea3e5f065b0
+
