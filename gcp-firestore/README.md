@@ -45,3 +45,27 @@ cf. https://cloud.google.com/nodejs/docs/reference/firestore/latest#quickstart
   - Firestoreにデータベースを作成する必要があったので作成した
   - Nodeアプリケーションから実行する前に、CLIの環境変数設定が必要だった
     - ex. `export GOOGLE_APPLICATION_CREDENTIALS="KEY_PATH"`
+
+## 導入パッケージまとめ
+
+### rimraf
+
+- ビルド結果を格納するディレクトリ（ex. dist）を削除するために利用
+- `rm -rf dist` ではなく、`rimraf` パッケージを利用する理由としては、 `rm` コマンドを利用することがOS依存であるため
+- なお、 `rimraf` パッケージはNPMの作者 `Isaac` 氏が作成したパッケージ
+- cf. https://maku77.github.io/nodejs/npm/npm-run-rimraf.html
+
+### npm-run-all
+
+- 複数の処理を１つのコマンドで実行するために利用する
+- ex. yarn build実行により、yarn clean -> yarn tscの２つのコマンドを実行できる（以下、参照）
+
+```
+{
+  ...
+  "clean": "rimraf dist/*",
+  "tsc": "tsc",
+  "build": "npm-run-all clean tsc",
+  ...
+}
+```
