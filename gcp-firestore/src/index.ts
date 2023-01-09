@@ -32,7 +32,7 @@ app.post('/post', (_req: Request, res: Response) => {
   const repo = new IntroToFirestoreRepository
   repo.insert(title, body)
     .then((data) => { return res.status(200).send(data) })
-    .catch(() => { return res.status(500).send({'message': 'insert failed.'}) })
+    .catch(() => { return res.status(500).send({'message': 'Insert failed.'}) })
 })
 
 app.patch('/post', (_req: Request, res: Response) => {
@@ -46,7 +46,7 @@ app.patch('/post', (_req: Request, res: Response) => {
   const repo = new IntroToFirestoreRepository
   repo.update(String(_req.body.key), title, body)
     .then((data) => { return res.status(200).send(data) })
-    .catch(() => { return res.status(500).send({'message': 'update failed.'}) })
+    .catch(() => { return res.status(500).send({'message': 'Update failed.'}) })
 })
 
 app.delete('/post', (_req: Request, res: Response) => {
@@ -57,7 +57,7 @@ app.delete('/post', (_req: Request, res: Response) => {
   const repo = new IntroToFirestoreRepository
   repo.delete(String(_req.body.key))
     .then((data) => { return res.status(200).send(data) })
-    .catch(() => { return res.status(500).send({'message': 'delete faild.'}) })
+    .catch(() => { return res.status(500).send({'message': 'Delete faild.'}) })
 })
 
 try {
