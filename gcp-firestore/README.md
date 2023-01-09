@@ -46,6 +46,14 @@ cf. https://cloud.google.com/nodejs/docs/reference/firestore/latest#quickstart
   - Nodeアプリケーションから実行する前に、CLIの環境変数設定が必要だった
     - ex. `export GOOGLE_APPLICATION_CREDENTIALS="KEY_PATH"`
 
+## ビルド時間短縮にesbuildが有効か試してみたい
+
+- ts-nodeの代替として、検索にヒットしたので導入してみた
+  - 開発環境用の実行は `yarn dev-esbuild`
+  - 本番環境用のビルドは、 `yarn build-esbuild`
+    - ※ 本番環境用の実行は、導入前同様に `yarn start`
+- cf. https://zenn.dev/okmttdhr/articles/7fd59537b63ce4
+
 ## 導入パッケージまとめ
 
 ### rimraf
