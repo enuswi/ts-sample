@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from 'express'
 import { body, check, query, validationResult } from 'express-validator'
+import { candidatePlayer, candidatePlayersRepository } from './repositories/candidatePlayers'
 import { IntroToFirestoreRepository } from './repositories/posts/introToFirestore'
 
 const app: Application = express()
@@ -102,6 +103,26 @@ app.delete('/post', body('key').isString().exists(), (_req: Request, res: Respon
   repo.delete(key)
     .then((data) => { return res.status(200).send(data) })
     .catch(() => { return res.status(500).send({'message': 'Delete faild.'}) })
+})
+
+app.post('/player', [
+  check('section').exists(),
+  check('prefecture').exists(),
+  check('name').exists(),
+  check('team').exists(),
+  check('position').exists(),
+  check('pitching_arm').exists(),
+  check('batting_arm').exists(),
+], (_req: Request, res: Response) => {
+  const errors = validationResult(_req)
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+  const params = _req.body as candidatePlayer
+
+  const repo = new candidatePlayersRepository
+  repo.insert(params)
+    .then((data) => { return res.status(200).send(data) })
+    .catch(() => { return res.status(500).send({'message': 'Insert faild.'}) })
 })
 
 try {
