@@ -105,6 +105,24 @@ app.delete('/post', body('key').isString().exists(), (_req: Request, res: Respon
     .catch(() => { return res.status(500).send({'message': 'Delete faild.'}) })
 })
 
+app.get('/player', query('entityId').exists(), (_req: Request, res: Response) => {
+  checkValidation(_req, res)
+
+  const findParams = _req.query as FindParams
+  const entityId = findParams.entityId
+
+  const repo = new candidatePlayersRepository
+  repo.find(entityId)
+    .then((data) => {
+      if (!data.exists) throw new Error('data not exists.')
+      return res.status(200).send(data.data())
+    })
+    .catch((e) => {
+      console.log(e)
+      return res.status(404).send({'message': 'Not found data.'})
+    })
+})
+
 app.post('/player', [
   check('section').exists(),
   check('prefecture').exists(),
@@ -124,6 +142,11 @@ app.post('/player', [
     .then((data) => { return res.status(200).send(data) })
     .catch(() => { return res.status(500).send({'message': 'Insert faild.'}) })
 })
+
+function checkValidation(_req: Request, res: Response) {
+  const errors = validationResult(_req)
+  if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+}
 
 try {
   app.listen(port, () => {
