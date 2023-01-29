@@ -26,18 +26,13 @@ app.get('/player', query('entityId').exists(), (_req: Request, res: Response) =>
   }
 
   const entityId = _req.query.entityId as string
-  const repo = new candidatePlayersRepository
 
-  repo.find(entityId)
-    .then((data) => {
-      if (!data.exists) {
-        throw new Error('data not exists.')
-      }
-      return res.status(200).send(data.data())
+  index.findObject(hit => hit.objectID === entityId)
+    .then(obj => {
+      return res.status(200).send(obj)
     })
-    .catch((e) => {
-      console.log(e)
-      return res.status(404).send({'message': 'Not found.'})
+    .catch(e => {
+      return res.status(404).send('obj not exists')
     })
 })
 
