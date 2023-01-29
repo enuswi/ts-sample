@@ -54,8 +54,8 @@ app.post('/player', [
 
   const repo = new candidatePlayersRepository
   repo.insert(params)
-    .then((data) => {
-      index.saveObject(params, { autoGenerateObjectIDIfNotExist: true })
+    .then(data => {
+      index.saveObject(params, {autoGenerateObjectIDIfNotExist: true})
       return res.status(200).send(data)
     })
     .catch(() => {
