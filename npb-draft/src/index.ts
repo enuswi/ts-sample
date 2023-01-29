@@ -4,6 +4,7 @@ import {candidatePlayer, candidatePlayersRepository} from './repositories/candid
 import algoliasearch, {} from 'algoliasearch'
 import * as dotenv from 'dotenv'
 
+/** TODO: Algoliaのデータ取得元は何かしらまとめる */
 dotenv.config()
 const env = process.env
 
