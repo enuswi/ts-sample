@@ -3,8 +3,12 @@ import {check, query, validationResult} from 'express-validator'
 import {candidatePlayer, candidatePlayersRepository} from './repositories/candidatePlayers'
 import algoliasearch, {} from 'algoliasearch'
 import * as dotenv from 'dotenv'
+import { Team, teamsRepository } from './repositories/teams'
 
-/** TODO: Algoliaのデータ取得元は何かしらまとめる */
+/** TODO:
+ * - Algoliaのデータ取得元は何かしらまとめる
+ * - エラーコードはどこからとる？
+ */
 dotenv.config()
 const env = process.env
 
@@ -61,6 +65,50 @@ app.post('/player', [
     })
     .catch(() => {
       return res.status(500).send({'message': 'Insert failed'})
+    })
+})
+
+app.post('/team', [
+  check('code').exists(),
+  check('name').exists(),
+], (_req: Request, res: Response) => {
+  const errors = validationResult(_req)
+  if (!errors.isEmpty()) {
+    return res.status(400).json({errors: errors.array()})
+  }
+
+  const params = _req.body as Team
+  const repo = new teamsRepository
+  repo.insert(params)
+    .then(data => {
+      return res.status(200).send(data)
+    })
+    .catch(() => {
+      return res.status(500).send({'message': 'Insert failed'})
+    })
+})
+
+/**
+ * Batch用のエンドポイント
+ */
+app.post('/batch', (_req: Request, res: Response) => {
+  index.search('')
+    .then(hits => {
+      hits.hits.map(hit => {
+        if (hit.objectID === '872683000') {
+          index.partialUpdateObject(
+            {objectID: hit.objectID, teamName: 'Swallows'},
+            {createIfNotExists: false}
+          )
+          .then(res => console.log(res))
+          .catch(err => console.log(err))
+        }
+        return
+      })
+      return res.status(200).send(hits)
+    })
+    .catch(() => {
+      return res.status(500).send({'message': 'failed updated'})
     })
 })
 
