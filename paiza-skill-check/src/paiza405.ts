@@ -3,26 +3,32 @@
  * 
  *  N 週間後が何日後かを表示する
  * ex. N: 6 = 42（日後）
+ * 条件：1 ≦ N ≦ 52
  */
 
-abstract class Base {
-  protected rowCount: number
-  protected requests: number[]
+export class paiza405 {
+  private countOfWeek: CountOfWeek
 
-  constructor(rowCount: number, requests: number[]) {
-    this.rowCount = rowCount
-    this.requests = requests
+  constructor(countOfWeek: number) {
+    this.countOfWeek = new CountOfWeek(countOfWeek)
   }
 
-  abstract run(): void;
+  public run() {
+    console.log(this.countOfWeek.convertToDays())
+  }
 }
 
-export class paiza405 extends Base {
-    constructor(rowCount: number, requests: number[]) {
-        super(rowCount, requests)
+export class CountOfWeek {
+  private value: number
+  private MIN: number = 1
+  private MAX: number = 52
+  constructor(value: number) {
+    if (value < this.MIN || this.MAX < value) {
+      throw Error('invalid value.')
     }
-
-    public run() {
-        console.log(this.rowCount * 7)
-    }
+    this.value = value;
+  }
+  public convertToDays(): number {
+    return this.value * 7
+  }
 }
