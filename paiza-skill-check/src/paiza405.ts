@@ -24,7 +24,7 @@ export class CountOfWeek {
   private MAX: number = 52
   constructor(value: number) {
     if (value < this.MIN || this.MAX < value) {
-      throw Error('invalid value.')
+      throw new Error('invalid value.')
     }
     this.value = value;
   }

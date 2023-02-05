@@ -1,0 +1,6 @@
+{
+  "editor.tabSize": 2,
+  "jest.jestCommandLine": "yarn test",
+  "jest.rootPath": "paiza-skill-check",
+  "jest.autoRun": {"watch": true}
+}

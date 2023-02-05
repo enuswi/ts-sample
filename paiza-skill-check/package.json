@@ -5,7 +5,8 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "etsc": "npx etsc",
-    "build": "npm-run-all clean etsc"
+    "build": "npm-run-all clean etsc",
+    "test": "jest"
   },
   "keywords": [],
   "author": "ysmt",
