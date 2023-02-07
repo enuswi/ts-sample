@@ -1,0 +1,11 @@
+
+interface Datum {}
+const data: Datum[] = []
+
+describe.each(data)(``, (data: Datum) => {
+  const {} = data
+
+  it(`ケース`, () => {
+
+  })
+})
