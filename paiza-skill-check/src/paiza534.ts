@@ -38,21 +38,39 @@ export class paiza534 {
   private total: number
   private keys: number[]
   private values: number[]
+  private sum: number = 0
   constructor(total: number, req: request[]) {
     this.total = total
     this.generateList(req)
+    this.calc()
   }
 
-  calc (): number {
-    const calcCount = this.total / 2
-    let sum = 0;
-    for (let i = 1; i <= calcCount; i ++) {
-      const indexA = this.keys.find(elm => elm <= i)
-      const indexB = this.keys.find(elm => elm <= i + calcCount)
+  getSum(): number {
+    return this.sum
+  }
 
-      sum += Math.abs(this.values[indexA] - this.values[indexB])
+  private calc (): void {
+    const calcCount = this.total / 2
+
+    if (calcCount > 100) {
+      for (let i = 1; i <= calcCount / 2; i ++) {
+        this.add(i, i + calcCount)
+      }
+      for (let j = 1 + calcCount / 2; j <= calcCount; j ++) {
+        this.add(j, j + calcCount)
+      }
+    } else {
+      for (let i = 1; i <= calcCount; i ++) {
+        this.add(i, i + calcCount)
+      }  
     }
-    return sum
+  }
+
+  private add (index: number, targetIndex: number) {
+    const indexA = this.values[index] ? index : this.keys.find(elm => elm <= index)
+    const indexB = this.values[targetIndex] ? targetIndex : this.keys.find(elm => elm <= targetIndex)
+
+    this.sum += Math.abs(this.values[indexA] - this.values[indexB])
   }
 
   private generateList (requestList: request[]): void {

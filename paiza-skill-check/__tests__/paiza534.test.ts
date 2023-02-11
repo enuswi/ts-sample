@@ -62,6 +62,6 @@ describe.each(data)(`IFのテスト`, (data: Datum) => {
 
   it(`ケース`, () => {
     const instance = new paiza534(total, list)
-    expect(instance.calc()).toBe(expected)
+    expect(instance.getSum()).toBe(expected)
   })
 })
