@@ -2,11 +2,13 @@ import { paiza534, request } from "../src/paiza534"
 
 interface Datum {
   expected: number,
+  total: number,
   list: request[]
 }
 const data: Datum[] = [
   {
     expected: 22,
+    total: 10,
     list: [
       {
         count: 2,
@@ -27,6 +29,7 @@ const data: Datum[] = [
     ]
   },{
     expected: 3000,
+    total: 600,
     list: [
       {
         count: 300,
@@ -41,14 +44,24 @@ const data: Datum[] = [
         number: 20
       }
     ]
+  },
+  {
+    expected: 0,
+    total: 1000000000,
+    list: [
+      {
+        count: 1000000000,
+        number: 0
+      }
+    ]
   }
 ]
 
 describe.each(data)(`IFのテスト`, (data: Datum) => {
-  const {expected, list} = data
+  const {expected, total, list} = data
 
   it(`ケース`, () => {
-    const instance = new paiza534(list)
+    const instance = new paiza534(total, list)
     expect(instance.calc()).toBe(expected)
   })
 })
